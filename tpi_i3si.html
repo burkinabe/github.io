@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Salut</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-8">
+                <p class="alert-primary">Veuillez entrer la clef dans le premier champ. Et entrer selon votre besoin le texte en claire ou le texte chiffre. Si vous souhaitez  faire un cryptage, cliquez sur crypter sinon
+                    cliquez sur Decrypter
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <label class="form-control-label" for="key">Entrez la cle</label>
+                    <input class="form-control" id="key" type="number">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="encryption">Texte</label>
+                    <input class="form-control" type="text" id="encryption">
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="onEnCrypt()">Crypter</button>
+                    <button class="btn btn-success" onclick="onDecrypt()">Decrypter</button>
+                </div>
+        
+                <div class="row">
+                    <textarea class="form-control" rows="6" type="text" disabled id="resultat" ></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    function onEnCrypt() {
+        var key = document.getElementById("key").value;
+        console.log(alphabet)
+        var text_en_clair = document.getElementById("encryption").value;
+        console.log(text_en_clair)
+        let generatedKey = generateKey()
+        console.log(generatedKey)
+        let encryptedChain = ""
+        for (let i = 0; i < text_en_clair.length; i++) {
+            if (text_en_clair[i] === " ") {
+            console.log(text_en_clair[i]);
+                encryptedChain = encryptedChain+" "
+            }
+
+            if (alphabet.includes(text_en_clair[i].toUpperCase())) {
+            console.log(text_en_clair[i].toUpperCase());
+                let index_in_clear_chain = alphabet.indexOf(text_en_clair[i].toUpperCase())
+                let c = generatedKey[index_in_clear_chain]
+                if (text_en_clair[i] === text_en_clair[i].toUpperCase()) {
+                    encryptedChain = encryptedChain+c
+                } else {
+                    encryptedChain = encryptedChain+c.toLowerCase()
+                }
+            }
+        }
+        // for (let i; i <= text_en_clair.length; i++) {
+        //     if (text_en_clair[i] === " ") {
+        //         encryptedChain.concat(" ")
+        //     }
+
+        //     if (alphabet.includes(text_en_clair[i])) {
+        //         let index_in_clear_chain = alphabet.indexOf(text_en_clair[i])
+        //         encryptedChain.concat(generatedKey[index_in_clear_chain])
+        //     }
+        //     console.log(i)
+        // }
+        document.getElementById("resultat").value = encryptedChain
+        console.log(encryptedChain)
+    }
+
+    function onDecrypt() {
+        var key = document.getElementById("key").value;
+        console.log(key)
+        var text_crypte = document.getElementById("encryption").value;
+        console.log(text_crypte)
+        let generatedKey = generateKey()
+        let encryptedChain = ""
+        for (let i = 0; i < text_crypte.length; i++) {
+            if (text_crypte[i] === " ") {
+            console.log(text_crypte[i]);
+                encryptedChain = encryptedChain+" "
+            }
+
+            if (alphabet.includes(text_crypte[i].toUpperCase())) {
+            console.log(text_crypte[i].toUpperCase());
+                let index_in_clear_chain = generatedKey.indexOf(text_crypte[i].toUpperCase())
+                let c = alphabet[index_in_clear_chain]
+                if (text_crypte[i] === text_crypte[i].toUpperCase()) {
+                    encryptedChain = encryptedChain+c
+                } else {
+                    encryptedChain = encryptedChain+c.toLowerCase()
+                }
+            }
+        }
+        // for (let i; i <= text_en_clair.length; i++) {
+        //     if (text_en_clair[i] === " ") {
+        //         encryptedChain.concat(" ")
+        //     }
+
+        //     if (alphabet.includes(text_en_clair[i])) {
+        //         let index_in_clear_chain = alphabet.indexOf(text_en_clair[i])
+        //         encryptedChain.concat(generatedKey[index_in_clear_chain])
+        //     }
+        //     console.log(i)
+        // }
+        document.getElementById("resultat").value = encryptedChain
+        console.log(encryptedChain)
+    }
+
+    function generateKey() {
+        let key = document.getElementById("key").value;
+        return alphabet.substr(26 - key, 26) + "" + alphabet.substr(0, 26 - key)
+    }
+</script>
+
+</html>
